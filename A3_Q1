@@ -1,0 +1,148 @@
+// -------------------------------------------------------
+// Assignment {3}
+// Written by: {Julian Vafiadis 40310616}
+// For COMP 248 Section {H} – Fall 2024 
+// --------------------------------------------------------
+
+import java.util.Scanner;
+public class A3_Q1 {
+
+	public static void main(String[] args) {
+
+		// Display the welcome message
+		System.out.println("Welcome to the Best Bank ATM!");
+		
+		// Create a Scanner object for input
+		Scanner myKeyboard = new Scanner(System.in);
+		
+		// Initialize balance to 0 at the beginning
+		double balance = 0;
+		
+		// Variable to store user's menu choice
+		int choice;
+		
+		// Start the menu loop, this will continue until the user chooses to exit
+		do
+		{
+			System.out.println("----------------------------------------------------");
+			System.out.println("Please choose an option:");
+			System.out.println("    1. Check Balance\n    2. Deposit\n    3. Withdraw\n    4. Exit");
+			System.out.print("Enter your choice: ");
+			
+			// Read the user's choice
+			choice = myKeyboard.nextInt();
+		
+		// Process the user's choice
+		switch (choice)
+		{
+			case 1: // Check balance
+			{
+				// Display the current balance, formatted to 2 decimal places
+				System.out.println("Your balance is: " + String.format("%.2f", balance) + "\n");
+				break;
+			}
+			case 2: // Deposit money
+			{
+				// Ask user to input the amount they wish to deposit
+			    System.out.print("Enter amount to deposit (multiples of 5, 10, 50, or 100): ");
+			    
+			    // Validate that the user inputs an integer
+			    while (!myKeyboard.hasNextInt())
+			    {
+			    	// If input is not an integer, print an error and ask again
+			        System.out.println("\nInvalid input! Please enter a valid integer.");
+			        myKeyboard.next(); // This consumes the invalid input
+			        System.out.print("Enter amount to deposit (multiples of 5, 10, 50, or 100): ");
+			    }
+			    
+			    // Read the valid deposit amount
+			    int amtDeposit = myKeyboard.nextInt();
+			    
+			    // Check if the deposit is valid (within range and a multiple of 5)
+			    if (amtDeposit >= 5 && amtDeposit <= 10000 && amtDeposit % 5 == 0) {
+			    	// Deposit is successful
+			    	System.out.println("Deposit successful!\n");
+			        balance = balance + amtDeposit;
+			    } else {
+			    	// Invalid deposit amount (not a multiple of 5, out of range)
+			        System.out.println("Invalid amount! Please enter a valid deposit (multiples of 5, between 5 and 10,000).\n");
+			    }
+			    
+			    break;  // Break out of the switch case
+			}
+
+				
+			case 3: // Withdraw money
+			{
+				// Ask user to input the amount they wish to withdraw
+				System.out.print("Enter amount to withdraw (multiples of 5, 10, 50, or 100): ");
+				
+				// Validate that the user inputs an integer
+				while (!myKeyboard.hasNextInt())
+				{
+					System.out.println("\nInvalid input! Please enter a valid integer.");
+					myKeyboard.next(); // Discard invalid input
+					System.out.print("Enter amount to withdraw (multiples of 5, 10, 50, or 100): ");
+				}
+				
+				// Read the valid withdrawal amount
+				int amtWithdraw = myKeyboard.nextInt();
+				
+				// Check if the withdrawal is valid (i.e., within the available balance)
+				if(amtWithdraw <= balance)
+				{
+					// Further validation to ensure the withdrawal is a valid amount (multiples of 5, within the range)
+					if ((amtWithdraw <= 10000) && (amtWithdraw >= 5) && (amtWithdraw%5 == 0))
+					{
+						// Calculate the number of bills to dispense (50s, 10s, 5s)
+						System.out.println("You will receive:");
+						int x1 = amtWithdraw/50; // Number of 50 dollar bills
+						int x2 = (amtWithdraw - (50*x1))/10; // Number of 10 dollar bills
+						int x3 = (amtWithdraw - (50*x1) - (10*x2))/5; // Number of 5 dollar bills
+						
+						// Print the amount of each bill type to be dispensed
+						System.out.println("    " + x1 + " bill(s) of $50");
+						System.out.println("    " + x2 + " bill(s) of $10");
+						System.out.println("    " + x3 + " bill(s) of $5");
+						System.out.println("Withdraw successful!");
+						
+						// Subtract the withdrawn amount from the balance
+						balance = balance - amtWithdraw;
+						break;
+					}
+				
+					else
+					{
+						// Invalid withdrawal amount (out of range or not a multiple of 5)
+						System.out.println("Invalid choice! Please try again.\n");
+					}
+				}
+				else
+				{
+					// Insufficient funds in the account
+					System.out.println("Invalid choice! Please try again.\n");
+				}
+				break; // Break out of the withdraw case
+			}
+			case 4: // Exit the ATM system
+			{
+				// Print goodbye message
+				System.out.println("Goodbye!");
+				break;
+			}
+			default: // Invalid choice
+			{
+				// Handle invalid menu option
+				System.out.println("Invalid choice! Please try again.\n");	
+				break;
+			}
+				}
+		}
+		// Repeat the loop until the user chooses to exit (option 4)
+		while (choice != 4);
+		
+		// Close the scanner resource after use
+		myKeyboard.close();
+	}
+		
+}	
