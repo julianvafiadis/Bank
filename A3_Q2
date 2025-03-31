@@ -1,0 +1,209 @@
+// -------------------------------------------------------
+// Assignment {3}
+// Written by: {Julian Vafiadis 40310616}
+// For COMP 248 Section {H} – Fall 2024 
+// --------------------------------------------------------
+
+import java.util.Scanner;
+public class A3_Q2 {
+
+	public static void main(String[] args) {
+		// Declare arrays to store product names, prices, and stock quantities for 5 products
+		String [] name = new String[5];  
+		double [] price = new double[5];  
+		int [] stock = new int[5];        
+		int choice = 0;                   // Variable to store the user's menu choice
+		Scanner myKeyboard = new Scanner(System.in);  // Scanner object to capture user input
+		
+		// Welcome message
+		System.out.println("Welcome to Inventory Management System");  
+		System.out.println("Enter details for 5 products (price, quantity, name): "); 
+		
+		// Input the details for 5 products: price, stock, and name
+		for (int i = 0; i < 5; i++)  
+		{
+			// Prompt user to enter details for each product
+			System.out.print("Product " + (i + 1) + ": \n");  
+			System.out.println("Enter product details (price, quantity, name): ");  
+			
+			// Read the price, stock, and name for each product
+			price[i] = myKeyboard.nextDouble();  
+			stock[i] = myKeyboard.nextInt();    
+			myKeyboard.nextLine();  // Consume the newline character left by nextInt()
+			name[i] = myKeyboard.nextLine();   // Read product name
+		}
+		
+		System.out.println();  // Add a newline for readability
+		
+		// Start the main loop for inventory management menu
+		do  
+		{
+			// Display the menu of options
+			System.out.println("Inventory Management Menu:\n"  
+					+ "    1. Display information of all products\n"  
+					+ "    2. Update the quantity of a product\n"  
+					+ "    3. Search for a product by name\n"  
+					+ "    4. Find the product with the lowest quantity\n"  
+					+ "    5. Find the product with the highest price\n"  
+					+ "    6. Exit\n");  
+			
+			// Prompt user for menu choice
+			System.out.print("Enter your choice: ");  
+			choice = myKeyboard.nextInt();  // Read the user's choice
+				
+			// Switch statement for handling menu options
+		switch (choice)  
+		{
+		case 1:  
+		{
+			// Case 1: Display all product details
+			System.out.println("Product List: ");  
+			System.out.println();  
+			
+			// Loop through all products and display their details (name, price, stock)
+			for (int i = 0; i < 5; i++)  
+			{
+					// Print details for each product
+					System.out.println("Product " + (i + 1) + ": ");  
+					System.out.println("Name:" + name[i]);  
+					System.out.println("Price: $" + price[i]);  
+					System.out.println("Quantity: " + stock[i]);  
+					System.out.println("---------------------------");  // Separator line					
+			}
+			System.out.println();  // Add a newline after the list
+			break;  
+		}
+		
+		case 2:  
+		{
+			int prodNum = 0;  // Variable to store the product number
+			int upQuantity = 0;  // Variable to store the new quantity of the product
+			
+			// Loop to ensure the user enters a valid product number to update
+			do  
+			{
+				System.out.print("Enter the product number (1-5) to update quantity: ");  
+				prodNum = myKeyboard.nextInt();  // Get product number from user
+				
+				// Check if product number is valid (between 1 and 5)
+				if (prodNum >= 1 && prodNum <= 5)  
+				{
+					// Prompt user to enter the new quantity for the selected product
+					System.out.print("Enter new quantity for " + name[prodNum - 1] + ": ");  
+					upQuantity = myKeyboard.nextInt();  // Get the updated quantity
+					
+					// Update the quantity in the stock array
+					stock[prodNum - 1] = upQuantity;  
+					System.out.println("Quantity updated successfully!\n");  // Confirm update
+				}
+				else  
+				{
+					// If invalid product number is entered, prompt the user again
+					System.out.println("Please enter a valid product number.\n");  
+				}
+			}
+				// Repeat the loop until a valid product number (1-5) is entered
+				while (prodNum != 1 && prodNum != 2 && prodNum != 3 && prodNum != 4 && prodNum != 5);  
+				break;  
+		}
+		
+		
+		case 3:  
+		{
+			myKeyboard.nextLine();  // Consume the leftover newline character
+			System.out.print("Enter the name of the product to search for: ");  
+			String search = myKeyboard.nextLine().toLowerCase();  // Convert the search term to lowercase
+			System.out.println("");  // Add a newline for clarity
+			boolean found = false;  // Flag to check if the product is found
+			
+			// Loop through the product names and search for a match
+			for (int n = 0; n < name.length; n++)  
+			{
+				// Compare the search term with the product name (case-insensitive)
+				if (search.equalsIgnoreCase(name[n].trim()))  
+				{
+					// If product found, display its details
+					System.out.println("Product Found:");  
+					System.out.println("Name: " + name[n]);  
+					System.out.println("Price: " + price[n]);  
+					System.out.println("Quantity: " + stock[n]);  
+					found = true;  // Set the flag to true
+				}
+			}
+			
+			// If product is not found, notify the user
+			if (!found)  
+			{
+				System.out.println("Product Not Found.\n");  
+			}
+			
+			System.out.println("");  // Add an extra newline
+			break;  
+		}
+		
+		case 4:  
+		{
+			System.out.println("Product with the Lowest Quantity: ");  
+			int minQuantity = 0;  // Index to track the product with the lowest quantity
+			
+			// Loop through the products to find the one with the lowest quantity
+			for (int i = 1; i < 5; i++)  
+			{
+				// If the current product has lower stock than the tracked one, update the index
+				if(stock[i] < stock[minQuantity])  
+				{
+					minQuantity = i;  
+				}
+			}
+			
+			// Display the product with the lowest quantity
+			System.out.println("\nName: " + name[minQuantity]);  
+			System.out.println("Price: " + price[minQuantity]);  
+			System.out.println("Quantity: " + stock[minQuantity]);  
+			System.out.println();  // Add an extra newline
+			break;  
+		}
+		
+		case 5:  
+		{
+			System.out.println("Product with the Highest Price: ");  
+			
+			int maxPrice = 0;  // Index to track the product with the highest price
+			
+			// Loop through the products to find the one with the highest price
+			for (int i = 1; i < 5; i++)  
+			{
+				// If the current product has a higher price than the tracked one, update the index
+				if (price[i] > price[maxPrice])  
+				{
+					maxPrice = i;  
+				}
+			}
+			
+			// Display the product with the highest price
+			System.out.println("\nName: " + name[maxPrice]);  
+			System.out.println("Price: " + price[maxPrice]);  
+			System.out.println("Quantity: " + stock[maxPrice]);  
+			System.out.println();  // Add an extra newline
+			break;  
+		}
+		
+		case 6:  
+		{
+			// If user chooses to exit, display goodbye message
+			System.out.print("Goodbye!");  
+			break;  
+		}
+		
+		default:  
+			// If an invalid choice is made, ask the user to select a valid option
+			System.out.println("Error. Please choose a valid option from the Inventory Management Menu.\n");  
+		}
+		}
+		// Repeat the menu loop until the user selects option 6 to exit
+		while (choice != 6);  
+	
+		// Close the scanner resource to free up memory after use
+		myKeyboard.close();  
+	}
+}
